@@ -11,6 +11,8 @@ workflow, database-driven report types/forms/templates with an in-app admin
 screen). See [Project status](#project-status) below and
 [`docs/GAP_ANALYSIS.md`](docs/GAP_ANALYSIS.md) for the full roadmap.
 
+**📖 [Read the user manual](https://muhammad-alee.github.io/asf-digital-reporting-portal/)** — published via GitHub Pages from `docs/index.html`.
+
 ## Documentation
 
 | Doc | For |
@@ -59,13 +61,11 @@ Migrations live in `drizzle/` (`0000_asf_portal.sql` is the baseline, later file
 
 ## Sharing the manual (GitHub Pages)
 
-`docs/index.html` is a self-contained, static walkthrough of every screen — safe to publish even though the app itself needs a real server. It is **not** the app; it's documentation for people testing the app.
+`docs/index.html` is a self-contained, static walkthrough of every screen, published at **https://muhammad-alee.github.io/asf-digital-reporting-portal/** via **Settings → Pages → Deploy from branch → `master` /docs**. It is **not** the app — it's documentation for people testing the app.
 
-To publish it: repo **Settings → Pages → Source: Deploy from a branch → Branch: `main`, folder: `/docs` → Save**. GitHub serves `docs/index.html` at `https://<username>.github.io/<repo>/`.
+> This repository is public specifically so Pages could be enabled on a free GitHub plan (which doesn't support Pages on private repos). No secrets live here — auth is platform-injected headers with nothing to leak, and all seed/example data is fictional (see `db/seed.sql`). If that trade-off ever stops being acceptable, move `docs/index.html` into its own small public repo and make this one private again.
 
-> **Private-repo caveat:** GitHub Pages for a *private* repository requires a paid GitHub plan (Pro/Team/Enterprise) — on a free account the Pages option won't be available while the repo is private. If that's the case here, either make this one repo public (the docs contain no secrets, only fictional example data) or keep the manual on the Claude-hosted link already shared separately.
-
-For the *live, working app* (not just its documentation), GitHub Pages can't help — see [Known limitations](#project-status) and `docs/GAP_ANALYSIS.md` for what a real deployment needs first (mainly: real authentication, since the current sign-in only works on the platform this was originally scaffolded on).
+For the *live, working app* (not just its documentation), GitHub Pages can't help — see [Project status](#project-status) and `docs/GAP_ANALYSIS.md` for what a real deployment needs first (mainly: real authentication, since the current sign-in only works on the platform this was originally scaffolded on).
 
 ## Project status
 
