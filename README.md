@@ -57,6 +57,16 @@ Migrations live in `drizzle/` (`0000_asf_portal.sql` is the baseline, later file
 - Generate official PDFs only from finalized versions (not yet implemented — Phase 5).
 - AI drafts cannot approve or finalize a report, and must only use facts supported by stored source material — the current generator never fills a missing field with a guess.
 
+## Sharing the manual (GitHub Pages)
+
+`docs/index.html` is a self-contained, static walkthrough of every screen — safe to publish even though the app itself needs a real server. It is **not** the app; it's documentation for people testing the app.
+
+To publish it: repo **Settings → Pages → Source: Deploy from a branch → Branch: `main`, folder: `/docs` → Save**. GitHub serves `docs/index.html` at `https://<username>.github.io/<repo>/`.
+
+> **Private-repo caveat:** GitHub Pages for a *private* repository requires a paid GitHub plan (Pro/Team/Enterprise) — on a free account the Pages option won't be available while the repo is private. If that's the case here, either make this one repo public (the docs contain no secrets, only fictional example data) or keep the manual on the Claude-hosted link already shared separately.
+
+For the *live, working app* (not just its documentation), GitHub Pages can't help — see [Known limitations](#project-status) and `docs/GAP_ANALYSIS.md` for what a real deployment needs first (mainly: real authentication, since the current sign-in only works on the platform this was originally scaffolded on).
+
 ## Project status
 
 | Phase | Scope | Status |

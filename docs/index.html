@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASF Reporting Manual</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #f4f7f6;
+    --surface: #ffffff;
+    --surface-2: #eef3f2;
+    --ink: #142a33;
+    --ink-soft: #51686f;
+    --ink-faint: #7c9096;
+    --line: #dbe6e4;
+    --line-strong: #c3d3d1;
+    --navy: #0c2e41;
+    --navy-2: #123a52;
+    --navy-ink: #e9f1f2;
+    --teal: #0b7a71;
+    --teal-ink: #085f58;
+    --teal-soft: #e3f3f0;
+    --gold: #a97a24;
+    --gold-soft: #f8efdc;
+    --danger: #ab4433;
+    --danger-soft: #f8e9e5;
+    --good: #22785a;
+    --good-soft: #e2f2e9;
+    --amber: #92671b;
+    --amber-soft: #fbf0da;
+    --shadow: 0 1px 2px rgba(12,46,65,.06), 0 8px 24px -12px rgba(12,46,65,.18);
+    --radius: 10px;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0d1a20;
+      --surface: #132630;
+      --surface-2: #17303c;
+      --ink: #e7eff0;
+      --ink-soft: #a9c0c5;
+      --ink-faint: #7e969c;
+      --line: #223c46;
+      --line-strong: #2c4b56;
+      --navy: #081b28;
+      --navy-2: #0f2635;
+      --navy-ink: #dfeaec;
+      --teal: #3fb8ab;
+      --teal-ink: #8fd9cd;
+      --teal-soft: #123531;
+      --gold: #d3a253;
+      --gold-soft: #2c2415;
+      --danger: #e08972;
+      --danger-soft: #33201c;
+      --good: #6bc79c;
+      --good-soft: #17301f;
+      --amber: #e0b658;
+      --amber-soft: #2f2611;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0d1a20;
+    --surface: #132630;
+    --surface-2: #17303c;
+    --ink: #e7eff0;
+    --ink-soft: #a9c0c5;
+    --ink-faint: #7e969c;
+    --line: #223c46;
+    --line-strong: #2c4b56;
+    --navy: #081b28;
+    --navy-2: #0f2635;
+    --navy-ink: #dfeaec;
+    --teal: #3fb8ab;
+    --teal-ink: #8fd9cd;
+    --teal-soft: #123531;
+    --gold: #d3a253;
+    --gold-soft: #2c2415;
+    --danger: #e08972;
+    --danger-soft: #33201c;
+    --good: #6bc79c;
+    --good-soft: #17301f;
+    --amber: #e0b658;
+    --amber-soft: #2f2611;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  h1, h2, h3, h4, .label, nav, button, .btn-demo {
+    font-family: 'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+  }
+  code, .mono, .field-tag, .kbd {
+    font-family: 'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+  }
+  h1, h2, h3, h4 { text-wrap: balance; color: var(--ink); }
+  a { color: var(--teal-ink); }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 272px minmax(0, 1fr);
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    gap: 44px;
+  }
+
+  /* ---------- Side rail ---------- */
+  .rail {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    padding-block: 28px 40px;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .rail-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .rail-brand .mark {
+    display: grid;
+    place-items: center;
+    width: 34px; height: 34px;
+    border-radius: 7px;
+    background: var(--navy);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .02em;
+    flex-shrink: 0;
+  }
+  .rail-brand .name { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .rail-brand .sub { font-size: 11px; color: var(--ink-faint); }
+
+  .doccode {
+    font-size: 11px;
+    color: var(--ink-faint);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .doccode b { color: var(--ink-soft); font-weight: 600; }
+
+  .rail nav { display: grid; gap: 1px; }
+  .rail nav a {
+    display: flex;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    padding: 7px 8px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+  }
+  .rail nav a .n { font-family: 'IBM Plex Mono', monospace; color: var(--ink-faint); font-size: 12px; width: 18px; flex-shrink: 0; }
+  .rail nav a:hover { background: var(--surface-2); color: var(--ink); }
+  .rail nav a.current { color: var(--teal-ink); border-left-color: var(--teal); background: var(--teal-soft); font-weight: 600; }
+
+  /* ---------- Main column ---------- */
+  main { min-width: 0; padding-block: 28px 80px; }
+
+  .cover {
+    background: linear-gradient(155deg, var(--navy) 0%, var(--navy-2) 100%);
+    color: var(--navy-ink);
+    border-radius: 14px;
+    padding: 34px 34px 28px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow);
+  }
+  .cover .eyebrow {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .cover h1 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #fff;
+    font-size: clamp(26px, 4vw, 36px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+  .cover p.lede {
+    font-family: 'IBM Plex Serif', serif;
+    color: #c8d9dc;
+    font-size: 15.5px;
+    max-width: 56ch;
+    margin: 0 0 22px;
+  }
+  .cover .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: #9db4b9;
+    border-top: 1px solid rgba(255,255,255,.14);
+    padding-top: 16px;
+  }
+  .cover .meta b { color: #dbe8ea; font-weight: 600; }
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,145,44,.18);
+    border: 1px solid rgba(201,145,44,.4);
+    color: var(--gold);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
+    padding: 4px 10px 4px 8px;
+    border-radius: 20px;
+  }
+  .status-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  section.sec { margin-bottom: 52px; scroll-margin-top: 20px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sec-head .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--teal-ink);
+    font-weight: 600;
+    background: var(--teal-soft);
+    border-radius: 5px;
+    padding: 2px 7px;
+  }
+  .sec-head h2 {
+    font-size: 21px;
+    font-weight: 700;
+    margin: 0;
+  }
+  .sec > p, .sec > ol > li, .sec > ul > li { max-width: 68ch; }
+  .sec p { color: var(--ink); }
+  h3.sub {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--teal-ink);
+    margin: 26px 0 10px;
+  }
+
+  ol.steps { list-style: none; margin: 16px 0; padding: 0; display: grid; gap: 10px; max-width: 68ch; }
+  ol.steps li {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    align-items: baseline;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 11px 14px;
+  }
+  ol.steps { counter-reset: step; }
+  ol.steps li { counter-increment: step; }
+  ol.steps li::before {
+    content: counter(step);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal-ink);
+    background: var(--teal-soft);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+
+  .callout {
+    border-radius: 8px;
+    padding: 13px 16px;
+    margin: 18px 0;
+    max-width: 68ch;
+    font-size: 14.5px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 12px;
+    border: 1px solid transparent;
+  }
+  .callout .glyph { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 13px; padding-top: 1px; }
+  .callout .head { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; grid-column: 2; margin-bottom: 2px; }
+  .callout p { grid-column: 2; margin: 0; }
+  .callout.note { background: var(--teal-soft); border-color: color-mix(in srgb, var(--teal) 30%, transparent); }
+  .callout.note .glyph, .callout.note .head { color: var(--teal-ink); }
+  .callout.tip { background: var(--gold-soft); border-color: color-mix(in srgb, var(--gold) 35%, transparent); }
+  .callout.tip .glyph, .callout.tip .head { color: var(--gold); }
+  .callout.caution { background: var(--danger-soft); border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
+  .callout.caution .glyph, .callout.caution .head { color: var(--danger); }
+
+  table.datatable { width: 100%; border-collapse: collapse; margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: 13.5px; }
+  table.datatable th, table.datatable td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--line); }
+  table.datatable th { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-faint); background: var(--surface-2); font-weight: 600; }
+  table.datatable tr:last-child td { border-bottom: 0; }
+  table.datatable td.mono, table.datatable td code { font-size: 12.5px; }
+  .tablewrap { overflow-x: auto; }
+
+  .pill { display: inline-flex; align-items: center; font-family: 'IBM Plex Sans', sans-serif; font-size: 11.5px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .pill.pending { background: var(--amber-soft); color: var(--amber); }
+  .pill.approved { background: var(--good-soft); color: var(--good); }
+  .pill.returned { background: var(--danger-soft); color: var(--danger); }
+  .pill.draft { background: var(--surface-2); color: var(--ink-soft); }
+
+  .role-pill { display: inline-flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; padding: 3px 9px 3px 8px; border-radius: 6px; background: var(--surface-2); color: var(--ink-soft); border: 1px solid var(--line); }
+  .role-pill .sw { width: 7px; height: 7px; border-radius: 50%; }
+
+  .btn-demo { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; padding: 7px 12px; border-radius: 6px; }
+  .btn-demo.primary { background: var(--teal); color: #fff; }
+  .btn-demo.secondary { background: var(--surface); color: var(--ink-soft); border: 1px solid var(--line-strong); }
+
+  .mockrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 14px 0; }
+
+  .field-tag { background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 7px; font-size: 12.5px; color: var(--teal-ink); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 16px 18px; }
+  .card h4 { font-size: 13.5px; margin: 0 0 8px; display: flex; align-items: center; gap: 7px; }
+  .card p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+
+  .flow {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+    margin: 18px 0; max-width: 68ch;
+  }
+  .flow .node { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 6px; padding: 5px 10px; color: var(--ink-soft); }
+  .flow .node.active { border-color: var(--teal); color: var(--teal-ink); background: var(--teal-soft); font-weight: 600; }
+  .flow .arrow { color: var(--ink-faint); }
+
+  .template-excerpt {
+    background: var(--navy);
+    color: var(--navy-ink);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    max-width: 68ch;
+    margin: 16px 0;
+  }
+  .template-excerpt .ph { color: var(--gold); }
+
+  footer.endmatter {
+    max-width: 68ch;
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 860px) {
+    .shell { grid-template-columns: 1fr; gap: 0; }
+    .rail { position: static; max-height: none; padding-block: 20px 8px; }
+    .rail nav { display: flex; flex-wrap: wrap; gap: 6px; }
+    .rail nav a { border-left: none; border: 1px solid var(--line); }
+    .rail nav a.current { border-color: var(--teal); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .cover { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="rail">
+    <div class="rail-brand">
+      <span class="mark">ASF</span>
+      <div>
+        <div class="name">Digital Reporting Portal</div>
+        <div class="sub">User Manual</div>
+      </div>
+    </div>
+    <div class="doccode">
+      <b>Doc</b> ASF-DAR-UM&nbsp;·&nbsp;<b>Rev</b> 0.2<br>
+      <b>Covers</b> Phase 1&ndash;2 build<br>
+      <b>Data</b> Fictional / test only
+    </div>
+    <nav>
+      <a href="#start" class="n">1</a>
+      <a href="#start">Before you start</a>
+    </nav>
+    <nav style="margin-top:2px">
+      <a href="#dashboard"><span class="n">2</span>The dashboard</a>
+      <a href="#create"><span class="n">3</span>Creating a report</a>
+      <a href="#generate"><span class="n">4</span>The AI draft</a>
+      <a href="#submit"><span class="n">5</span>Submit &amp; review</a>
+      <a href="#history"><span class="n">6</span>Report history</a>
+      <a href="#admin"><span class="n">7</span>Administration</a>
+      <a href="#roles"><span class="n">8</span>Roles &amp; permissions</a>
+      <a href="#limits"><span class="n">9</span>Known limitations</a>
+      <a href="#faq"><span class="n">10</span>Troubleshooting</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="cover">
+      <div class="eyebrow">User Manual &middot; ASF Digital Reporting Portal</div>
+      <h1>How to use the Digital Activity Reporting portal</h1>
+      <p class="lede">A walkthrough of every screen in the portal — creating a report, generating and checking its draft, sending it for review, and (for administrators) adding new report types — written for the people testing the build, not the people who wrote it.</p>
+      <div class="meta">
+        <span><b>Built for</b> ASF-DAR field testing</span>
+        <span><b>Environment</b> local test instance</span>
+        <span class="status-chip"><span class="dot"></span>Demo data only</span>
+      </div>
+    </div>
+
+    <section class="sec" id="start">
+      <div class="sec-head"><span class="num">01</span><h2>Before you start</h2></div>
+      <p>This is a working test build of the ASF Digital Reporting Portal — the tool meant to replace WhatsApp-and-rewrite reporting with a structured, reviewable workflow. Everything in it right now is <strong>fictional demo data</strong>: no real names, passports, or recoveries should be entered while testing.</p>
+
+      <h3 class="sub">Signing in</h3>
+      <p>Open the link you were sent for the live test instance (this page is documentation only and does not run the app itself). The portal signs you in automatically the first time you click through — there's no password to type. You'll land on the Dashboard as <strong>Demo Administrator</strong>.</p>
+
+      <div class="callout caution">
+        <span class="glyph">!</span>
+        <span class="head">One shared login</span>
+        <p>The test build has a single login only — everyone who opens the live link, including you, your supervisor, and your brother, signs in as the <em>same</em> Demo Administrator account. You will all see each other's test reports, and anyone can approve anyone's draft. That's expected for now; it's not a bug. A separate login per person arrives with real authentication, tracked as a later build phase.</p>
+      </div>
+
+      <h3 class="sub">The five main screens</h3>
+      <p>The left-hand sidebar is how you move around. Five screens matter for day-to-day use, plus a sixth (Administration) that only appears for this shared admin login:</p>
+      <div class="grid-2">
+        <div class="card"><h4>📊 Dashboard</h4><p>Today's counts and the most recent reports across the airport.</p></div>
+        <div class="card"><h4>📝 New report</h4><p>Where every report starts — pick a type, fill in facts, write what happened.</p></div>
+        <div class="card"><h4>📁 Report history</h4><p>Every report you can see, with its current status.</p></div>
+        <div class="card"><h4>✅ Review queue</h4><p>Reports waiting for a decision — approve, return, or reject.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="dashboard">
+      <div class="sec-head"><span class="num">02</span><h2>The dashboard</h2></div>
+      <p>The dashboard is a summary, not a to-do list — it counts what's visible to you right now:</p>
+      <table class="datatable">
+        <thead><tr><th>Tile</th><th>What it counts</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Reports today</strong></td><td>Reports created since midnight, out of everything currently visible to you</td></tr>
+          <tr><td><strong>Pending review</strong></td><td>Reports sitting in the review queue awaiting a decision</td></tr>
+          <tr><td><strong>Approved</strong></td><td>Reports marked Approved or Finalized</td></tr>
+          <tr><td><strong>Drafts</strong></td><td>Reports still in Draft or sent back as Returned</td></tr>
+        </tbody>
+      </table>
+      <p>Below the tiles is the same table you'll see on <a href="#history">Report history</a> — the most recent activity first. Click <span class="btn-demo primary">＋ New report</span> to start one.</p>
+    </section>
+
+    <section class="sec" id="create">
+      <div class="sec-head"><span class="num">03</span><h2>Creating a report</h2></div>
+      <p>Open <strong>New report</strong>. The form has two parts: fixed details at the top that apply to every report, and a set of fields underneath that change depending on what you're reporting.</p>
+
+      <h3 class="sub">Step 1 — the fixed details</h3>
+      <ol class="steps">
+        <li><strong>Airport</strong> and <strong>Unit</strong> — where this happened. Unit is optional.</li>
+        <li><strong>Report date</strong>, <strong>Time</strong>, and <strong>Shift</strong> (Morning / Evening / Night).</li>
+        <li><strong>Location</strong> — a short free-text spot, e.g. <em>"Landside terminal"</em> or <em>"Departure lounge."</em></li>
+      </ol>
+
+      <h3 class="sub">Step 2 — pick a report type</h3>
+      <p>The <strong>Report type</strong> dropdown is not fixed to a short list — it's read from the portal's own settings, so it can grow. At the time of writing it includes:</p>
+      <div class="mockrow">
+        <span class="pill draft">Snap Checking</span>
+        <span class="pill draft">Ammunition Recovery</span>
+        <span class="pill draft">Medical Case</span>
+        <span class="pill draft">Maintenance</span>
+        <span class="pill draft">Other / General Activity</span>
+      </div>
+      <p>Choosing a type changes the <strong>Required facts</strong> block beneath it — a Medical Case asks for patient name and condition; an Ammunition Recovery asks for the passenger, flight, and disposal. Fill in whatever facts you actually know; leave the rest blank rather than guessing.</p>
+
+      <div class="callout tip">
+        <span class="glyph">✳</span>
+        <span class="head">Nothing fits? Use "Other"</span>
+        <p>Pick <strong>Other / General Activity</strong> for anything that doesn't match the presets. It asks for one thing — a <strong>Subject</strong> line you write yourself — and then relies on the notes box below to carry the rest, verbatim.</p>
+      </div>
+
+      <h3 class="sub">Step 3 — write the source notes</h3>
+      <p>The <strong>Source messages / notes</strong> box is where you describe what actually happened, in your own words — the way you'd currently type it into WhatsApp. This text is never discarded: it's checked for missing details and contradictions, and it's carried into the generated report exactly as written.</p>
+
+      <h3 class="sub">Step 4 — save</h3>
+      <p>Click <span class="btn-demo secondary">Save draft</span> at any point to store your work without submitting it. A saved draft gets a real report number immediately (see below) and can be reopened and edited later — nothing is lost by saving early.</p>
+
+      <div class="callout note">
+        <span class="glyph">#</span>
+        <span class="head">Report numbers</span>
+        <p>Every saved report is numbered automatically: <code class="mono">ASF-&lt;AIRPORT&gt;-&lt;YEAR&gt;-&lt;MONTHDAY&gt;-&lt;SEQUENCE&gt;</code> — for example <code class="mono">ASF-DEMO-2026-0914-003</code> is the third report saved for the Demonstration Airport on 14 September 2026. You never set this yourself.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="generate">
+      <div class="sec-head"><span class="num">04</span><h2>The AI draft</h2></div>
+      <p>Click <span class="btn-demo primary">✳ Generate AI draft</span> to turn your facts and notes into an official-style report on the right-hand side.</p>
+
+      <div class="callout note">
+        <span class="glyph">i</span>
+        <span class="head">Facts first, always</span>
+        <p>The draft generator will <strong>never invent</strong> a name, quantity, date, or outcome you didn't provide. A field you left blank is written as <em>"Not provided"</em>, not guessed. This is the core rule of the whole system — the draft is a formatting and organizing step, not a source of new information.</p>
+      </div>
+
+      <h3 class="sub">Reading the warnings</h3>
+      <p>Above the draft, a banner tells you what the check found:</p>
+      <table class="datatable">
+        <thead><tr><th>Banner</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">No missing fields or contradictions detected.</td><td>The required facts are all filled in and nothing conflicts.</td></tr>
+          <tr><td class="mono">Missing: disposal</td><td>A required field for this report type is empty — fill it in and generate again, or leave it and let the reviewer see it flagged.</td></tr>
+          <tr><td class="mono">Multiple quantities were found in the source…</td><td>Your notes mention two different numbers for the same thing (e.g. "18 slabs" and later "16 slabs") — the system won't pick one for you; check which is right.</td></tr>
+          <tr><td class="mono">Source contains both suspected and confirmed language…</td><td>Your notes say something was both "suspected" and "confirmed" — make sure the final status is accurate before submitting.</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub">What the draft looks like</h3>
+      <p>The layout mirrors the paper reports it's replacing:</p>
+      <div class="template-excerpt">ASF <span class="ph">Demonstration Airport</span>
+
+Assalam-O-Alaikum Sir,
+
+Sub: <span class="ph">Recovery of Ammunition by ASF</span>
+
+Dated: <span class="ph">2026-09-14</span>
+
+◼️ Details:
+● Passenger name: <span class="ph">Ali Raza</span>
+● Flight number: <span class="ph">G9-559</span>
+● Disposal: <span class="ph">Not provided</span>
+● Notes: <span class="ph">Passenger Ali Raza on flight G9-559 found with…</span>
+
+FIP</div>
+      <p>You can re-generate as many times as you like while the report is a Draft — editing a field and generating again always reflects your latest input, and never remembers a previous, different value.</p>
+    </section>
+
+    <section class="sec" id="submit">
+      <div class="sec-head"><span class="num">05</span><h2>Submitting &amp; the review queue</h2></div>
+      <p>Once the draft looks right, click <span class="btn-demo primary">Submit for review</span>. This is a one-way door for you: the report leaves your editor and moves to <strong>Pending review</strong>.</p>
+
+      <div class="flow">
+        <span class="node">Draft</span><span class="arrow">→</span>
+        <span class="node">AI draft ready</span><span class="arrow">→</span>
+        <span class="node active">Pending review</span><span class="arrow">→</span>
+        <span class="node">Approved</span>
+      </div>
+
+      <h3 class="sub">Reviewing (Supervisor / Report Officer / Commander)</h3>
+      <p>Open <strong>Review queue</strong>. Every report waiting for a decision in your airport appears here with its full generated text, so you can compare it against what actually happened before deciding:</p>
+      <div class="mockrow">
+        <span class="btn-demo secondary">Return</span>
+        <span class="btn-demo secondary">Reject</span>
+        <span class="btn-demo primary">Approve</span>
+      </div>
+      <ul>
+        <li><strong>Approve</strong> — the report is correct and complete. Status becomes <span class="pill approved">Approved</span>.</li>
+        <li><strong>Return</strong> — send it back to the submitter for correction. Status becomes <span class="pill returned">Returned</span>, and it can be edited and resubmitted.</li>
+        <li><strong>Reject</strong> — the report should not proceed at all.</li>
+      </ul>
+      <div class="callout caution">
+        <span class="glyph">!</span>
+        <span class="head">Comment required</span>
+        <p>Return and Reject both require a written comment explaining why — the button is blocked until you type one. Approve doesn't need a comment.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="history">
+      <div class="sec-head"><span class="num">06</span><h2>Report history</h2></div>
+      <p>Every report you're allowed to see, most recent first: report number, type, airport, current status, and when it last changed.</p>
+      <div class="tablewrap">
+      <table class="datatable">
+        <thead><tr><th>Report number</th><th>Type</th><th>Status</th><th>Updated</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ASF-DEMO-2026-0914-005</td><td>VIP / Official Movement</td><td><span class="pill draft">AI draft ready</span></td><td>4:01 PM</td></tr>
+          <tr><td class="mono">ASF-DEMO-2026-0914-003</td><td>Snap Checking</td><td><span class="pill returned">Rejected</span></td><td>3:49 PM</td></tr>
+          <tr><td class="mono">ASF-DEMO-2026-0914-002</td><td>Ammunition Recovery</td><td><span class="pill returned">Returned</span></td><td>3:04 PM</td></tr>
+          <tr><td class="mono">ASF-DEMO-2026-0914-001</td><td>Snap Checking</td><td><span class="pill approved">Approved</span></td><td>3:03 PM</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="font-size:13px;color:var(--ink-faint)">Example rows shown — your table reflects whatever has actually been submitted during testing.</p>
+    </section>
+
+    <section class="sec" id="admin">
+      <div class="sec-head"><span class="num">07</span><h2>Administration</h2></div>
+      <p>Only visible with this build's admin login. This is where new report types are created — no code change or restart required, they appear in <strong>New report</strong> immediately.</p>
+
+      <h3 class="sub">Adding a report type</h3>
+      <ol class="steps">
+        <li>Open <strong>Administration</strong>. Enter a short <strong>Code</strong> (e.g. <code>VIP_MOVEMENT</code>) and a readable <strong>Name</strong> (e.g. <em>"VIP / Official Movement"</em>), then <span class="btn-demo primary">Create report type</span>.</li>
+        <li>Select the new type from the table. Under <strong>Fields</strong>, add each fact you want it to ask for — a <span class="field-tag">field key</span> like <code>vip_name</code> and a label like <em>"VIP name / designation."</em></li>
+        <li>Under <strong>Template</strong>, write the subject line and the report body, then <span class="btn-demo primary">Publish new version</span>.</li>
+      </ol>
+
+      <div class="callout note">
+        <span class="glyph">i</span>
+        <span class="head">Publishing never overwrites</span>
+        <p>Every time you publish a template, it becomes a new numbered version and the old one is retired, not deleted — so a report generated last week still shows what its template looked like then.</p>
+      </div>
+
+      <div class="callout tip">
+        <span class="glyph">✳</span>
+        <span class="head">Free-text subjects</span>
+        <p>Add a field with the key <code>custom_subject</code> to any type, and the generator will use whatever the submitter types there as the <em>Sub:</em> line, instead of your fixed subject pattern — this is exactly how "Other / General Activity" works.</p>
+      </div>
+
+      <h3 class="sub">Template placeholders</h3>
+      <div class="tablewrap">
+      <table class="datatable">
+        <thead><tr><th>Placeholder</th><th>Filled with</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">{{airport}}</td><td>The report's airport name</td></tr>
+          <tr><td class="mono">{{subject}}</td><td>Your subject pattern, or the submitter's <code>custom_subject</code> if that field exists</td></tr>
+          <tr><td class="mono">{{date}}</td><td>The report date</td></tr>
+          <tr><td class="mono">{{details}}</td><td>Every field's label and value, plus the submitter's source notes</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section class="sec" id="roles">
+      <div class="sec-head"><span class="num">08</span><h2>Roles &amp; permissions</h2></div>
+      <p>The portal has six roles designed into it. Only one — Administrator — is reachable through this shared test login, but here's what each is meant to do once real sign-in is in place:</p>
+      <div class="tablewrap">
+      <table class="datatable">
+        <thead><tr><th>Role</th><th>Create &amp; submit</th><th>Review queue</th><th>Approve</th><th>Administration</th></tr></thead>
+        <tbody>
+          <tr><td><span class="role-pill"><span class="sw" style="background:var(--ink-faint)"></span>Data Entry</span></td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td><span class="role-pill"><span class="sw" style="background:var(--teal)"></span>Supervisor</span></td><td>✓</td><td>✓</td><td>✓</td><td>—</td></tr>
+          <tr><td><span class="role-pill"><span class="sw" style="background:var(--teal)"></span>Report Officer</span></td><td>✓</td><td>✓</td><td>—</td><td>—</td></tr>
+          <tr><td><span class="role-pill"><span class="sw" style="background:var(--amber)"></span>Commander</span></td><td>—</td><td>✓</td><td>✓</td><td>—</td></tr>
+          <tr><td><span class="role-pill"><span class="sw" style="background:var(--gold)"></span>Administrator</span></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td><span class="role-pill"><span class="sw" style="background:var(--ink-faint)"></span>Auditor</span></td><td>—</td><td>—</td><td>—</td><td>read-only</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Supervisors and Report Officers see their own airport's queue; Administrators and Auditors see every airport's.</p>
+    </section>
+
+    <section class="sec" id="limits">
+      <div class="sec-head"><span class="num">09</span><h2>Known limitations right now</h2></div>
+      <p>This is a mid-build test, not a finished product. Please don't be surprised by:</p>
+      <ul>
+        <li><strong>No Finalize step or PDF export yet.</strong> Approved reports stay Approved — there's no "make it official" button or downloadable copy yet.</li>
+        <li><strong>No incident grouping or duplicate warnings yet.</strong> Related messages about the same event aren't linked automatically.</li>
+        <li><strong>No file attachments yet.</strong> Photos and documents can't be uploaded to a report.</li>
+        <li><strong>"Generate AI draft" is not a live AI model.</strong> It's a deterministic, rule-based formatter — reliably safe (it can't hallucinate), but it won't rephrase or summarize creatively the way a language model would. That upgrade is planned behind the same button.</li>
+        <li><strong>One shared login</strong> — see the caution at the top of this manual.</li>
+      </ul>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="sec-head"><span class="num">10</span><h2>Troubleshooting</h2></div>
+      <h3 class="sub">"Submit for review" is disabled</h3>
+      <p>You need a generated draft first — click <strong>Generate AI draft</strong> at least once before submitting.</p>
+      <h3 class="sub">Return / Reject won't click</h3>
+      <p>Type a reason in the comment box first; both actions require one.</p>
+      <h3 class="sub">The page won't load, or shows a server error</h3>
+      <p>The test server may have restarted. Wait a few seconds and reload the link. If it persists, let whoever set up the test know — the link only works while their machine keeps it running.</p>
+      <h3 class="sub">I don't see "Administration" in the sidebar</h3>
+      <p>That tab only shows for the Administrator login this test build shares. If you're signed in and it's still missing, reload the page.</p>
+    </section>
+
+    <footer class="endmatter">
+      ASF Digital Reporting Portal — User Manual · Rev 0.2 · Written for build testers, current as of the Phase 1–2 milestone. All figures and report numbers shown above are illustrative. This page documents the app; it does not run it — see the repository README for how to run or request access to a live test instance.
+    </footer>
+  </main>
+</div>
+
+<script>
+  const links = Array.from(document.querySelectorAll('.rail nav a[href^="#"]'));
+  const targets = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const setCurrent = () => {
+    let current = targets[0];
+    const y = window.scrollY + 96;
+    for (const t of targets) { if (t.offsetTop <= y) current = t; }
+    links.forEach(a => a.classList.toggle('current', a.getAttribute('href') === '#' + current.id));
+  };
+  document.addEventListener('scroll', setCurrent, { passive: true });
+  setCurrent();
+</script>
+</body>
+</html>
